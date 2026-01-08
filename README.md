@@ -55,12 +55,19 @@
    * `KATYA_BOT_TOKEN`: токен бота Кати.
    * `ANYA_BOT_TOKEN`: токен бота Ани.
 
-3. **Загрузите зависимости:**
+3. **Настройте промпты:**
+   В файлах папки `prompts/` встречаются плейсхолдеры вида `{REPLACE_ME:@Username}`. Для того чтобы боты могли корректно давать ссылки друг на друга в диалогах, необходимо заменить эти значения на актуальные @username ваших созданных ботов во всех файлах папки `prompts`:
+   * `{REPLACE_ME:@MainTelegramBot}` — юзернейм главного бота.
+   * `{REPLACE_ME:@MashaTelegramAccountBot}` — юзернейм бота Маши.
+   * `{REPLACE_ME:@KatyaTelegramAccountBot}` — юзернейм бота Кати.
+   * `{REPLACE_ME:@AnyaTelegramAccountBot}` — юзернейм бота Ани.
+
+4. **Загрузите зависимости:**
    ```bash
    go mod download
    ```
 
-4. **Запустите приложение:**
+5. **Запустите приложение:**
    ```bash
    go run cmd/main/main.go
    ```
