@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"time"
@@ -83,12 +84,12 @@ func main() {
 }
 
 func attachHandlers(cfg *quest.Config) {
-	cfg.Bots[main_bot].AddCommandHandler("start", mainBotStartCommandHandler())
-	cfg.Bots[main_bot].AddCommandHandler("restart", mainBotRestartCommandHandler())
+	cfg.Bots[main_bot].AddCommandHandler("start", mainBotStartCommandHandler(cfg.Bots[main_bot].Placeholders["liza_bot_name"]))
+	cfg.Bots[main_bot].AddCommandHandler("restart", mainBotRestartCommandHandler(cfg.Bots[main_bot].Placeholders["liza_bot_name"]))
 	cfg.Bots[main_bot].AddTransitionHandler(stateFinish, func(chatID int64, sender quest.MessageSender) error {
 		time.Sleep(10 * time.Second)
 		_ = sender.SendMessage(chatID, getMainBotFinalText())
-		_ = sender.SendMessage(chatID, getShareLink())
+		_ = sender.SendMessage(chatID, getShareLink(cfg.Bots[main_bot].Placeholders["main_bot_name"]))
 
 		return nil
 	})
@@ -113,7 +114,7 @@ func attachHandlers(cfg *quest.Config) {
 	})
 }
 
-func mainBotStartCommandHandler() func(chatID int64, sender quest.MessageSender) error {
+func mainBotStartCommandHandler(lizaBotName string) func(chatID int64, sender quest.MessageSender) error {
 	return func(chatID int64, sender quest.MessageSender) error {
 		err := sender.SendPhoto(chatID, "./photos/main_bot_photo1.png")
 
@@ -121,7 +122,7 @@ func mainBotStartCommandHandler() func(chatID int64, sender quest.MessageSender)
 			slog.Error("unable to send photo:", "error", err.Error())
 		}
 
-		err = sender.SendMessage(chatID, getIntroText())
+		err = sender.SendMessage(chatID, getIntroText(lizaBotName))
 
 		if err != nil {
 			return err
@@ -137,16 +138,16 @@ func mainBotStartCommandHandler() func(chatID int64, sender quest.MessageSender)
 	}
 }
 
-func mainBotRestartCommandHandler() func(chatID int64, sender quest.MessageSender) error {
+func mainBotRestartCommandHandler(lizaBotName string) func(chatID int64, sender quest.MessageSender) error {
 	return func(chatID int64, sender quest.MessageSender) error {
 		_ = sender.SendMessage(chatID, "Игра перезапущена")
 
-		return mainBotStartCommandHandler()(chatID, sender)
+		return mainBotStartCommandHandler(lizaBotName)(chatID, sender)
 	}
 }
 
-func getIntroText() string {
-	return `
+func getIntroText(lizaBotName string) string {
+	return fmt.Sprintf(`
 <b>7 января 1852 года</b> в Санкт-Петербурге в помещении Екатерининского вокзала была наряжена <b>первая в России</b> общественная ёлка.
 
 После этого традиция наряжать ёлки для всех желающих распространилась по всей стране.
@@ -165,8 +166,8 @@ func getIntroText() string {
 
 Напиши Лизе! Ей очень нужна твоя помощь. До праздника остаются считанные дни!
 
-@Liza32GymnBot
-`
+%s
+`, lizaBotName)
 }
 
 func getHelperText() string {
@@ -203,10 +204,10 @@ func getMainBotFinalText() string {
 `
 }
 
-func getShareLink() string {
-	return `
+func getShareLink(mainBotName string) string {
+	return fmt.Sprintf(`
 Понравился квест?
 
-Поделись с другом ссылкой на этого бота, чтобы он тоже смог поиграть: @NorthStarSpbBot
-`
+Поделись с другом ссылкой на этого бота, чтобы он тоже смог поиграть: %s
+`, mainBotName)
 }

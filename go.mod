@@ -3,7 +3,7 @@ module north_star_quest
 go 1.24.7
 
 require (
-	github.com/Koreychenko/go-quest v0.0.0-20260108165641-493949786814
+	github.com/Koreychenko/go-quest v0.0.0-20260108175423-ac555a9f3c39
 	github.com/joho/godotenv v1.5.1
 )
 

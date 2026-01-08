@@ -5,6 +5,9 @@ bots:
     prompt_files:
       default: ["./prompts/base_helper_prompt.txt"]
       finish: ["./prompts/base_helper_final_prompt.txt"]
+    placeholders:
+      main_bot_name: "REPLACE_ME_MAIN_BOT_NAME"
+      liza_bot_name: "REPLACE_ME_LIZA_BOT_NAME"
   liza:
     token_env: LIZA_BOT_TOKEN
     description: "Interactive quest bot for Liza"
@@ -23,6 +26,8 @@ bots:
       liza_second_contact:
         target_state: finish
         goals: ["report_anya", "report_location", "explain_motive"]
+    placeholders:
+      masha_bot_name: "REPLACE_ME_MASHA_BOT_NAME"
   masha:
     token_env: MASHA_BOT_TOKEN
     description: "Interactive quest bot for Masha"
@@ -38,6 +43,8 @@ bots:
       masha_first_contact:
         target_state: katya_contact
         goals: ["get_katya_phone"]
+    placeholders:
+      katya_bot_name: "REPLACE_ME_KATYA_BOT_NAME"
   katya:
     token_env: KATYA_BOT_TOKEN
     description: "Interactive quest bot for Katya"
@@ -68,3 +75,5 @@ bots:
       anya_contact:
         target_state: liza_second_contact
         goals: ["confess_star"]
+    placeholders:
+      anya_bot_name: "REPLACE_ME_ANYA_BOT_NAME"
