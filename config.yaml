@@ -1,0 +1,70 @@
+bots:
+  main:
+    token_env: MAIN_BOT_TOKEN
+    description: "Main bot"
+    prompt_files:
+      default: ["./prompts/base_helper_prompt.txt"]
+      finish: ["./prompts/base_helper_final_prompt.txt"]
+  liza:
+    token_env: LIZA_BOT_TOKEN
+    description: "Interactive quest bot for Liza"
+    prompt_files:
+      default: ["./prompts/liza/liza_out_of_service_prompt.txt"]
+      initial: ["./prompts/base_prompt.txt", "./prompts/liza/liza_prompt.txt"]
+      masha_first_contact: ["./prompts/base_prompt.txt", "./prompts/liza/liza_prompt.txt"]
+      katya_contact: ["./prompts/base_prompt.txt", "./prompts/liza/liza_prompt.txt"]
+      anya_contact: ["./prompts/base_prompt.txt", "./prompts/liza/liza_prompt.txt"]
+      liza_second_contact: ["./prompts/base_prompt.txt", "./prompts/liza/liza_second_contact_prompt.txt"]
+      finish: ["./prompts/base_prompt.txt", "./prompts/liza/liza_final_prompt.txt"]
+    state_handlers:
+      initial:
+        target_state: masha_first_contact
+        goals: ["get_masha_phone"]
+      liza_second_contact:
+        target_state: finish
+        goals: ["report_anya", "report_location", "explain_motive"]
+  masha:
+    token_env: MASHA_BOT_TOKEN
+    description: "Interactive quest bot for Masha"
+    prompt_files:
+      default: ["./prompts/masha/masha_out_of_service_prompt.txt"]
+      initial: ["./prompts/masha/masha_out_of_service_prompt.txt"]
+      masha_first_contact: ["./prompts/base_prompt.txt", "./prompts/masha/masha_prompt.txt"]
+      katya_contact: ["./prompts/base_prompt.txt", "./prompts/masha/masha_prompt.txt"]
+      anya_contact: ["./prompts/base_prompt.txt", "./prompts/masha/masha_prompt.txt"]
+      liza_second_contact: ["./prompts/base_prompt.txt", "./prompts/masha/masha_prompt.txt"]
+      finish: ["./prompts/base_prompt.txt", "./prompts/masha/masha_final_prompt.txt"]
+    state_handlers:
+      masha_first_contact:
+        target_state: katya_contact
+        goals: ["get_katya_phone"]
+  katya:
+    token_env: KATYA_BOT_TOKEN
+    description: "Interactive quest bot for Katya"
+    prompt_files:
+      default: ["./prompts/katya/katya_out_of_service_prompt.txt"]
+      initial: ["./prompts/katya/katya_out_of_service_prompt.txt"]
+      masha_first_contact: ["./prompts/katya/katya_out_of_service_prompt.txt"]
+      katya_contact: ["./prompts/base_prompt.txt", "./prompts/katya/katya_prompt.txt"]
+      anya_contact: ["./prompts/base_prompt.txt", "./prompts/katya/katya_prompt.txt"]
+      liza_second_contact: ["./prompts/base_prompt.txt", "./prompts/katya/katya_prompt.txt"]
+      finish: ["./prompts/base_prompt.txt", "./prompts/katya/katya_final_prompt.txt"]
+    state_handlers:
+      katya_contact:
+        target_state: anya_contact
+        goals: ["get_star_photo", "get_channel", "get_anya_phone", "get_tree_photo"]
+  anya:
+    token_env: ANYA_BOT_TOKEN
+    description: "Interactive quest bot for Anya"
+    prompt_files:
+      default: ["./prompts/anya/anya_out_of_service_prompt.txt"]
+      initial: ["./prompts/anya/anya_out_of_service_prompt.txt"]
+      masha_first_contact: ["./prompts/anya/anya_out_of_service_prompt.txt"]
+      katya_contact: ["./prompts/anya/anya_out_of_service_prompt.txt"]
+      anya_contact: ["./prompts/base_prompt.txt", "./prompts/anya/anya_prompt.txt"]
+      liza_second_contact: ["./prompts/base_prompt.txt", "./prompts/anya/anya_prompt.txt"]
+      finish: ["./prompts/base_prompt.txt", "./prompts/anya/anya_final_prompt.txt"]
+    state_handlers:
+      anya_contact:
+        target_state: liza_second_contact
+        goals: ["confess_star"]

@@ -1,0 +1,29 @@
+# IDE
+.idea
+.vscode
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Binaries and execution files
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Dependency directories (only if not using go modules)
+# vendor/
+
+# Test binaries
+*.test
+
+# Output of 'go install'
+/pkg/
+/bin/
+
+# Logs
+*.log
